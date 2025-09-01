@@ -1,6 +1,6 @@
 import User from "../models/user.model";
 import Token from "../utils/token";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"
 export const Singup = async (req, res) => {
     try {
         const { fullname, email, password, contactnumber, role } = req.body;
@@ -63,5 +63,15 @@ export const Singin = async (req, res) => {
         
         res.status(500).json({ message: "Server error", error: error.message });
 
+    }
+}
+
+export const Signout = (req, res) => {
+    try {
+        res.clearCookie("token");
+        res.status(200).json({ message: "User signed out successfully" });
+    } catch (error) {
+        console.log("Signout error is: ", error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 }
