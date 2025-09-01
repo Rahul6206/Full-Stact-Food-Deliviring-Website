@@ -1,6 +1,6 @@
-import User from "../models/user.model";
-import Token from "../utils/token";
-import bcrypt from "bcryptjs"
+import User from "../models/user.model.js";
+import Token from "../utils/token.js";
+import bcrypt from "bcrypt"
 export const Singup = async (req, res) => {
     try {
         const { fullname, email, password, contactnumber, role } = req.body;
