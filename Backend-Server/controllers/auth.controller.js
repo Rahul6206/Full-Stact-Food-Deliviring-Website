@@ -1,5 +1,5 @@
 import User from "../models/user.model";
-
+import Token from "../utils/token";
 const Singup = async (req, res) => {
     try {
         const { fullname, email, password, contactnumber, role } = req.body;
@@ -18,8 +18,16 @@ const Singup = async (req, res) => {
         }
         const encpassword=await bcrypt.hash(password,10);
         const newUser = new User({ fullname, email, password: encpassword, contactnumber, role: role  });
+        const token= Token(newUser._id);
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV==="production",
+            sameSite:"strict",
+            maxAge:24*60*60*1000
+        })
         await newUser.save();
-        res.status(201).json({ message: "User registered successfully" });
+        res.status(201).json({ message: "User registered successfully", user: { id: newUser._id, fullname: newUser.fullname, email: newUser.email, contactnumber: newUser.contactnumber, role: newUser.role }, token });
+        // res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
 
