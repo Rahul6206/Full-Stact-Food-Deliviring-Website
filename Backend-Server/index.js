@@ -13,20 +13,21 @@ const PORT = process.env.port || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cookieParser)
-app.use('/api/auth',authRouter);
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-}));
+app.use(cookieParser())
+app.use('/api/auth',authRouter); 
+// app.use(cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+// }));
 // Routes
 app.get('/', (req, res) => {
+    console.log("Server is running..."); 
     res.send('Welcome to the Food Delivery Backend Server!');
-});
+     
+}); 
 
 // Start server
 app.listen(PORT, () => {
     ConnectMongoDB();
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`); 
 });
