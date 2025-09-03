@@ -15,10 +15,10 @@ const PORT = process.env.port || 5000;
 app.use(express.json());
 app.use(cookieParser())
 app.use('/api/auth',authRouter); 
-// app.use(cors({
-//     origin: process.env.CLIENT_URL,
-//     credentials: true,
-// }));
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}));
 // Routes
 app.get('/', (req, res) => {
     console.log("Server is running..."); 
