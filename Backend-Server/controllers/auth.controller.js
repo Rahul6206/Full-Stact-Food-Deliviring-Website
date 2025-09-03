@@ -8,7 +8,10 @@ export const Singup = async (req, res) => {
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
-        if (!fullname || !email || !password || !contactnumber) {
+        if(contactnumber.length >=10){
+            return res.status(400).json({ message: "Contact number is not valid" });
+        }
+        if (!fullname || !email || !password || !contactnumber || !role) {
             return res.status(400).json({ message: "All fields are required" });
         }
         if (password.length < 6) {
@@ -26,7 +29,7 @@ export const Singup = async (req, res) => {
             sameSite:"strict",
             maxAge:24*60*60*1000
         })
-        // await newUser.save();
+        await newUser.save();
        return res.status(201).json({ message: "User registered successfully", user: { id: newUser._id, fullname: newUser.fullname, email: newUser.email, contactnumber: newUser.contactnumber, role: newUser.role }, token });
         // res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
@@ -48,7 +51,7 @@ export const Singin = async (req, res) => {
         if(!decpassword){
             return res.status(400).json({ message: "Invalid Password" });
         }
-        const token= Token(newUser._id);
+        const token= Token(user._id);
         res.cookie("token",token,{
             httpOnly:true,
             secure:process.env.NODE_ENV==="production",
@@ -56,7 +59,7 @@ export const Singin = async (req, res) => {
             maxAge:24*60*60*1000
         })
         // await newUser.save();
-       return res.status(20).json({ message: "User Login successfully", user});
+       return res.status(201).json({ message: "User Login successfully", user});
         // res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
         console.log("Singin error is: ", error);
