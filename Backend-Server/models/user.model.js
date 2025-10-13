@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
   fullname: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -18,7 +17,7 @@ const userSchema = new mongoose.Schema({
   contactnumber: {
     type: String,
     required: true,
-    unique: true,
+    
   },
   role:{
     type: String,

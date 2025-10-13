@@ -2,13 +2,14 @@ import User from "../models/user.model.js";
 import Token from "../utils/token.js";
 import bcrypt from "bcrypt"
 export const Singup = async (req, res) => {
+    console.log(req.body);
     try {
         const { fullname, email, password, contactnumber, role } = req.body;
         const user = await User.findOne({ $or: [{ email }, { contactnumber }] });
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
-        if(contactnumber.length >=10){
+        if(contactnumber.length >10){
             return res.status(400).json({ message: "Contact number is not valid" });
         }
         if (!fullname || !email || !password || !contactnumber || !role) {

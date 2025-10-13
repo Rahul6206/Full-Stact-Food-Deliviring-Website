@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { email, z } from "zod";
 import { toast } from 'sonner'
 import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
-
+import axios from 'axios'
+import { BURL } from "../App";
 // ✅ Define validation schema using Zod
 const SignUpSchema = z.object({
     name: z.string().min(3, "Full name must be at least 3 characters."),
@@ -22,7 +23,7 @@ const SignUpSchema = z.object({
         .max(20, "Password too long."),
     confirmPassword: z.string(),
     role: z
-        .enum(["", "User", "Owner", "Delivery Boy"])
+        .enum(["", "user", "Owner", "Delivery Boy"])
         .refine((val) => val !== "", {
             message: "Please select a role.",
         }),
@@ -61,12 +62,38 @@ export default function SignUp() {
     });
 
     const selectedRole = watch("role");
-    const roles = ["User", "Owner", "Delivery Boy"];
+    const roles = ["user", "Owner", "Delivery Boy"];
 
-    const onSubmit = (data) => {
-        console.log("Form Submitted ✅", data);
-        // alert(`Account created successfully for ${data.name}! 🎉`);
-        toast.success(`Account created successfully for ${data.name}! 🎉`)
+
+
+    // fullname, email, password, contactnumber, role
+    const onSubmit = async (data) => {
+
+
+        try {
+            const Data = await axios.post(
+                "http://localhost:5000/api/auth/signup",
+                {
+                    fullname: data.name,
+                    email: data.email,
+                    password: data.password,
+                    contactnumber: data.phone,
+                    role: data.role,
+                },
+                {
+                    withCredentials: true,
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            console.log("Form Submitted ✅", data);
+            toast.success(`Account created successfully for ${data.name}! 🎉`);
+        } catch (error) {
+            console.log("Request error is:", error);
+            console.log("Error response data:", error.response?.data);
+            toast.warning(`${error.response?.data.message}`)
+            console.log("Error status:", error.response?.status);
+        }
     };
 
     return (
@@ -85,24 +112,22 @@ export default function SignUp() {
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-10">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                <div className="bg-transparent md:bg-white md:shadow-2xl  p-2 md:p-10  ">
+                    <h2 className="text-3xl text-center font-bold text-gray-800 mb-6">
                         Create Account
                     </h2>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         {/* Role Selection */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Role
-                            </label>
-                            <div className="flex gap-4">
+                        <div className="flex gap-4 w-full justify-center items-center flex-col">
+
+                            <div className="flex gap-4 ">
                                 {roles.map((role) => (
                                     <button
                                         key={role}
                                         type="button"
                                         onClick={() => setValue("role", role)}
-                                        className={`px-5 py-2 rounded-lg font-medium transition-colors duration-200 ${selectedRole === role
+                                        className={`px-5 py-0 md:py-2 rounded-lg font-medium text-sm md:text-xl transition-colors duration-200 ${selectedRole === role
                                             ? "bg-orange-500 text-white shadow-md"
                                             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                                             }`}

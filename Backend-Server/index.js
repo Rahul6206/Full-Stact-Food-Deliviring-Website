@@ -10,15 +10,17 @@ import authRouter from './routes/auth.route.js';
 const app = express();
 const PORT = process.env.port || 5000; 
 
+const corsOptions = {
+    origin: 'http://localhost:5173', // Correct, no trailing slash
+    credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser())
 app.use('/api/auth',authRouter); 
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-}));
+
 // Routes
 app.get('/', (req, res) => {
     console.log("Server is running..."); 
