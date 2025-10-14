@@ -41,6 +41,8 @@ export const Singup = async (req, res) => {
     }
 }
 export const Singin = async (req, res) => {
+    console.log(req.body);
+    
     try {
         const {email, password} = req.body;
         const user = await User.findOne({ email });
@@ -60,7 +62,7 @@ export const Singin = async (req, res) => {
             maxAge:24*60*60*1000
         })
         // await newUser.save();
-       return res.status(201).json({ message: "User Login successfully", user});
+       return res.status(200).json({ message: "User Login successfully", user});
         // res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
         console.log("Singin error is: ", error);

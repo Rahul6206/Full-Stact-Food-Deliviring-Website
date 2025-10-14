@@ -6,8 +6,10 @@ import { email, z } from "zod";
 import { toast } from 'sonner'
 import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 import { BURL } from "../App";
 // ✅ Define validation schema using Zod
+
 const SignUpSchema = z.object({
     name: z.string().min(3, "Full name must be at least 3 characters."),
     email: z.string().email("Enter a valid email address."),
@@ -40,7 +42,7 @@ const SignUpSchema = z.object({
 
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
-
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -71,8 +73,8 @@ export default function SignUp() {
 
 
         try {
-            const Data = await axios.post(
-                "http://localhost:5000/api/auth/signup",
+            await axios.post(
+                `${BURL}/api/auth/signup`,
                 {
                     fullname: data.name,
                     email: data.email,
@@ -86,7 +88,6 @@ export default function SignUp() {
                 }
             );
 
-            console.log("Form Submitted ✅", data);
             toast.success(`Account created successfully for ${data.name}! 🎉`);
         } catch (error) {
             console.log("Request error is:", error);
@@ -318,9 +319,15 @@ export default function SignUp() {
                     <div className="mt-6 text-center">
                         <p className="text-gray-600">
                             Already have an account?{' '}
-                            <a href="#" className="text-orange-600 font-semibold hover:text-orange-700">
-                                Sign In
-                            </a>
+
+                            <button
+                                type="button"
+                                onClick={() => navigate('/singin')}
+                                className="text-red-500 hover:underline font-medium"
+                            >
+                                Sign Up
+
+                            </button>
                         </p>
                     </div>
 

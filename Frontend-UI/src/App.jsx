@@ -2,7 +2,8 @@ import { useState } from 'react'
 import {Route, Routes} from 'react-router-dom'
 import { Toaster } from 'sonner'
 import SignUp from './Pages/Singup'
-import Login from './Pages/Login'
+import ForgotPassword from './Pages/Reset'
+
 import SignInPage from './Pages/Singin'
 export const BURL = 'http://localhost:5000'
 function App() {
@@ -15,8 +16,9 @@ function App() {
    <Routes>
     <Route path='/' element={<h1>Home Page</h1>}/>
     <Route path='/singup' element={<SignUp/>}/>
-    <Route path='/singin' element={<Login/>}/>
-    <Route path='/singinn' element={<SignInPage/>}/>
+    <Route path='/reset' element={<ForgotPassword/>}/>
+   
+    <Route path='/singin' element={<SignInPage/>}/>
    </Routes>
     </>
   )
