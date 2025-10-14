@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { sendOtp } from "../utils/mail.js";
 import Token from "../utils/token.js";
 import bcrypt from "bcrypt"
 export const Singup = async (req, res) => {
@@ -80,4 +81,63 @@ export const Signout = (req, res) => {
         console.log("Signout error is: ", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
+}
+
+
+export const sendotp= async (req,res)=>{
+    try {
+        const {email}=req.body;
+        const user=await User.findOne({email});
+        if(!user){
+            return res.status(400).json({ message: "User not exists" });
+        }
+        const Genrateotp=Math.floor(1000+ Math.random()*9000).toString();
+        user.otp=Genrateotp;
+        user.isexpried=Date.now()+60*1000;
+        user.isverified=false;
+        await user.save();
+       await sendOtp(user.email,Genrateotp);
+       return res.status(200).json({message:"Otp send Successfully"})
+    } catch (error) {
+        console.log(error);
+         res.status(500).json({ message: " error send otp", error: error.message });
+        
+    }
+}
+export const  verifiedOTP=async(req,res)=>{
+
+    try {
+        const {email,otp}=req.body;
+        const user=await User.findOne({email});
+        if(!user || user.otp!== otp || user.isexpried<Date.now()){
+            return res.status(400).json({message: 'Invalid or Expried otp'});
+        }
+        user.isverified=true;
+        user.otp=undefined;
+        user.isexpried=undefined;
+        await user.save();
+        return res.status(200).json({message:"Otp verifiy Successfully"})
+    } catch (error) {
+         res.status(400).json({ message: "Otp varify error", error: error.message });
+    }
+
+}
+export const  Reserpassword=async(req,res)=>{
+
+    try {
+        const {email,newpassword}=req.body;
+        const user=await User.findOne({email});
+        if(!user || !user.isverified){
+            return res.status(400).json({ message: "Otp verification is required" });
+        }
+        const encpassword=await bcrypt.hash(password,10);
+         user.password=encpassword;
+         user.isverified=false;
+         await user.save();
+        return res.status(400).json({ message: "Password reset succesfully", error: error.message });
+    } catch (error) {
+       return res.status(400).json({ message: "Password Reset error", error: error.message });
+    }
+
+
 }
