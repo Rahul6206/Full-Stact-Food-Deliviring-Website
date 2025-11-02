@@ -325,7 +325,7 @@ export default function SignUp() {
                                 onClick={() => navigate('/singin')}
                                 className="text-red-500 hover:underline font-medium"
                             >
-                                Sign Up
+                                Sign In
 
                             </button>
                         </p>
