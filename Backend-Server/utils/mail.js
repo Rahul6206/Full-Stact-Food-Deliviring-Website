@@ -16,7 +16,7 @@ export const sendOtp=async (to,otp) => {
     to: to,
     subject: "Reset Password",
     text: "Hello world?", // plain‑text body
-    html: `<b>Your Otp is <h1>${otp}</h1> <p>It expires is 60 sec</p> </b>`, // HTML body
+    html: `<b>Your Otp is <h1>${otp}</h1> <p>It expires is 5 min</p> </b>`, // HTML body
   });
 
   console.log("Message sent:", info.messageId);

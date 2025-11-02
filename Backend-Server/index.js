@@ -1,4 +1,5 @@
 import express from 'express';
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
@@ -8,14 +9,14 @@ import authRouter from './routes/auth.route.js';
 
 // Load environment variables
 const app = express();
-const PORT = process.env.port || 5000; 
+const PORT = process.env.port; 
 
 const corsOptions = {
     origin: 'http://localhost:5173', // Correct, no trailing slash
     credentials: true,
     
 };
-
+ 
 app.use(cors(corsOptions));
 
 // Middleware
