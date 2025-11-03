@@ -29,6 +29,7 @@ const SignUpSchema = z.object({
         .refine((val) => val !== "", {
             message: "Please select a role.",
         }),
+        
 
     terms: z.boolean().refine((val) => val === true, {
         message: "You must agree to the terms.",
