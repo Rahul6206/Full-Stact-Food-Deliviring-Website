@@ -5,11 +5,12 @@ import SignUp from './Pages/Singup'
 import ForgotPassword from './Pages/Reset'
 
 import SignInPage from './Pages/Singin'
+import useCurrentuser from './hooks/useCurrentuser'
 export const BURL = 'http://localhost:5000'
 function App() {
   const [count, setCount] = useState(0)
 
-
+useCurrentuser();
   return (
     <>
     <Toaster richColors position="top-center" />
