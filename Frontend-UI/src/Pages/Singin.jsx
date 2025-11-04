@@ -8,7 +8,9 @@ import axios from "axios";
 import { BURL } from "../App";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../../Firebase";
+import {auth} from "../../Firebase";
+import { useDispatch } from "react-redux";
+import { setUserdata } from "../Redux/UserSlice";
 // import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -20,6 +22,7 @@ const schema = z.object({
 export default function SignInPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -34,14 +37,22 @@ export default function SignInPage() {
 
     // Add actual login logic here
     try {
-      await axios.post(`${BURL}/api/auth/signin`, {
-        email: data.email,
-        password: data.password,
-      }, {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      })
-      toast.success('Login Success');
+      const res = await axios.post(
+        `${BURL}/api/auth/signin`,
+        { email: data.email, password: data.password },
+        { withCredentials: true, headers: { "Content-Type": "application/json" } }
+      );
+
+      // Backend shape: try to set user consistently with useCurrentuser (response.data.user)
+      const user = res?.data?.user ?? res?.data ?? null;
+      if (user) {
+        dispatch(setUserdata(user));
+        toast.success("Login Success");
+        navigate("/");
+      } else {
+        toast.error("Login succeeded but no user data returned");
+      }
+      
     } catch (error) {
       toast.error(error.response.data.message || 'Login Failed');
     }
@@ -56,7 +67,6 @@ export default function SignInPage() {
       
     } catch (error) {
       console.log(error);
-      
     }
 
 

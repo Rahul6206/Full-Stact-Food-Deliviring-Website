@@ -1,25 +1,27 @@
 import { useState } from 'react'
-import {Route, Routes} from 'react-router-dom'
+import {Navigate, Route, Routes} from 'react-router-dom'
 import { Toaster } from 'sonner'
 import SignUp from './Pages/Singup'
 import ForgotPassword from './Pages/Reset'
-
 import SignInPage from './Pages/Singin'
 import useCurrentuser from './hooks/useCurrentuser'
+import { useSelector } from 'react-redux'
+import Home from './Pages/Home'
 export const BURL = 'http://localhost:5000'
 function App() {
-  const [count, setCount] = useState(0)
+  useCurrentuser();
+ const {Userdata}=useSelector(state=>state.user);
 
-useCurrentuser();
+
   return (
     <>
     <Toaster richColors position="top-center" />
    <Routes>
-    <Route path='/' element={<h1>Home Page</h1>}/>
-    <Route path='/singup' element={<SignUp/>}/>
-    <Route path='/reset' element={<ForgotPassword/>}/>
-   
-    <Route path='/singin' element={<SignInPage/>}/>
+    <Route path='/' element={<Home/>}/>
+    <Route path='/singup' element={!Userdata ? <SignUp /> : <Navigate to="/" />} />
+    <Route path='/reset' element={!Userdata ? <ForgotPassword /> : <Navigate to="/" />} />
+
+    <Route path='/singin' element={!Userdata ? <SignInPage /> : <Navigate to="/" />} />
    </Routes>
     </>
   )

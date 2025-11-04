@@ -8,6 +8,8 @@ import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { BURL } from "../App";
+import { useDispatch } from "react-redux";
+import { setUserdata } from "../Redux/UserSlice";
 // ✅ Define validation schema using Zod
 
 const SignUpSchema = z.object({
@@ -44,6 +46,7 @@ const SignUpSchema = z.object({
 export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
+    const dispach=useDispatch();
     const {
         register,
         handleSubmit,
@@ -74,7 +77,7 @@ export default function SignUp() {
 
 
         try {
-            await axios.post(
+          const userdata=  await axios.post(
                 `${BURL}/api/auth/signup`,
                 {
                     fullname: data.name,
@@ -88,13 +91,13 @@ export default function SignUp() {
                     headers: { "Content-Type": "application/json" },
                 }
             );
+            dispach(setUserdata(userdata.data))
 
             toast.success(`Account created successfully for ${data.name}! 🎉`);
         } catch (error) {
-            console.log("Request error is:", error);
-            console.log("Error response data:", error.response?.data);
+           
             toast.warning(`${error.response?.data.message}`)
-            console.log("Error status:", error.response?.status);
+           
         }
     };
 
