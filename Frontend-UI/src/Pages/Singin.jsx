@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {auth} from "../../Firebase";
 import { useDispatch } from "react-redux";
-import { setUserdata } from "../Redux/UserSlice";
+import { setUserdata, setUserinfo } from "../Redux/UserSlice";
 // import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -46,9 +46,11 @@ export default function SignInPage() {
       // Backend shape: try to set user consistently with useCurrentuser (response.data.user)
       const user = res?.data?.user ?? res?.data ?? null;
       if (user) {
+        dispatch(setUserinfo(true))
         dispatch(setUserdata(user));
         toast.success("Login Success");
         navigate("/");
+
       } else {
         toast.error("Login succeeded but no user data returned");
       }

@@ -4,7 +4,7 @@ import NavBar from '../Components/NavBar';
 
 const Home = () => {
   const { Userdata } = useSelector(state => state.user);
-  console.log(Userdata)
+ 
   return (
     <div className='w-screen h-screen bg-red-300 '>
 

@@ -1,17 +1,46 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MapPin, Search, ShoppingCart, Menu, X ,Gift, HelpCircle, User, LogOut} from "lucide-react";
+import { MapPin, Search, ShoppingCart, Menu, X, Gift, HelpCircle, User, LogOut, BadgePercent, MessageCircleQuestionMark } from "lucide-react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { BURL } from "../App";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { setUserdata, setUserinfo } from "../Redux/UserSlice";
 
 const NavBar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [ismobile, setIismobile] = useState(false);
+  const navigate=useNavigate();
+
+
   const cartCount = 3; // Example item count
- const { Userdata } = useSelector(state => state.user);
- console.log(Userdata)
- const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { Userdata, Userlocation } = useSelector(state => state.user);
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const dispatch=useDispatch()
 
   // Close popup when clicking outside
+  useEffect(() => {
+    // Function to check screen size
+    const checkScreenSize = () => {
+      if (window.innerWidth < 768) {
+        // Tailwind's `md` breakpoint se chhoti screen
+        setIismobile(false);
+      } else {
+        setIismobile(true);
+      }
+    };
+
+    // Run on mount
+    checkScreenSize();
+
+    // Add resize listener
+    window.addEventListener("resize", checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -22,160 +51,124 @@ const NavBar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout= async()=>{
+    try {
+      await axios.get(`${BURL}/api/auth/signout`,{ withCredentials: true });
+      toast.success("Logout Success");
+      dispatch(setUserinfo(false));
+      dispatch(setUserdata(null));
+      navigate('/singin');
+      console.log('Logout')
+    } catch (error) {
+      toast.error(error.response.data.message || "Logout failed" );
+    }
+
+  }
+
   return (
     <>
       {/* Main Navbar */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b shadow-sm bg-white relative">
-      {/* Left: Logo */}
-      <div className="text-2xl font-bold text-gray-800 cursor-pointer">
-        YumWheels
-      </div>
-
-      {/* Center: Location + Search (Desktop only) */}
-      <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
-        <div className="flex items-center gap-2 text-gray-700 cursor-pointer">
-          <MapPin className="w-5 h-5 text-red-500" />
-          <span className="text-sm font-medium">Deliver to:</span>
-          <span className="font-semibold truncate max-w-[150px]">
-            123 Main St, Anytown...
-          </span>
+      <nav className="flex md:w-[80vw]  mr-auto ml-auto items-center justify-evenly md:justify-between px-6 py-4 border-b shadow-sm bg-white z-50 rounded-b-lg">
+        {/* Left: Logo */}
+        <div className="hidden md:block text-2xl font-bold text-gray-800 cursor-pointer">
+          FoodyZone
         </div>
 
-        <div className="relative w-[300px]">
-          <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search for restaurants or dishes..."
-            className="w-full pl-10 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-          />
-        </div>
-      </div>
-
-      {/* Right: Nav Links + Cart + User */}
-      <div className="hidden md:flex items-center gap-6 relative">
-        <a href="#" className="text-gray-700 hover:text-red-500">
-          Offers
-        </a>
-        <a href="#" className="text-gray-700 hover:text-red-500">
-          Help
-        </a>
-
-        {/* Cart */}
-        <div className="relative cursor-pointer">
-          <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-red-500" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold px-1.5 rounded-full">
-            {cartCount}
-          </span>
-        </div>
-
-        {/* User Button */}
-        <div className="relative" ref={userMenuRef}>
-          <button
-            onClick={() => setIsUserMenuOpen((prev) => !prev)}
-            className="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"
-          >
-            {Userdata?.fullname?.slice(0, 1)?.toUpperCase() || "U"}
-          </button>
-
-          {/* Popup Menu */}
-          {isUserMenuOpen && (
-            <div className="absolute right-0 mt-3 w-40 bg-white border rounded-lg shadow-lg overflow-hidden animate-fadeIn z-50">
-              <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100">
-                <User className="w-4 h-4 mr-2 text-red-500" />
-                Account
-              </button>
-              <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100">
-                <LogOut className="w-4 h-4 mr-2 text-red-500" />
-                Logout
-              </button>
+        {/* Center: Location + Search (Desktop only) */}
+        <div className="flex items-center gap-0 md:gap-6  justify-center">
+          <div className={`flex items-center gap-2 w-20 sm:w-30 md:w-full text-gray-700 cursor-pointer `}>
+            <MapPin className="w-fit h-5 text-red-500" />
+            <span className="text-sm font-medium hidden md:block">Deliver to:</span>
+            <div className="min-w-0 flex-1">
+              <span
+                className="font-semibold text-sm block truncate">
+                {Userlocation || "Location"}
+              </span>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {/* Mobile Right Section */}
-      <div className="flex md:hidden items-center gap-4">
-        <div className="relative cursor-pointer">
-          <ShoppingCart className="w-6 h-6 text-gray-700" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold px-1.5 rounded-full">
-            {cartCount}
-          </span>
-        </div>
+          <div className="relative w-full ">
+            <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search for restaurants or dishes..."
 
-        <button onClick={() => setIsMenuOpen(true)}>
-          <Menu className="w-6 h-6 text-gray-700" />
-        </button>
-      </div>
-    </nav>
-
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 transition-opacity duration-300">
-    <div className="fixed top-0 right-0 w-4/5 max-w-xs h-full bg-white shadow-xl rounded-l-2xl transform transition-transform duration-300 ease-in-out animate-slideIn flex flex-col">
-      
-      {/* Header */}
-      <div className="flex items-center justify-between border-b px-5 py-4">
-        <div className="flex items-center gap-3">
-          <User className="w-6 h-6 text-red-500" />
-          <span className="font-semibold text-gray-800 text-base">
-            {Userdata?.fullname?.toUpperCase() || "Guest User"}
-          </span>
-        </div>
-        <button
-          onClick={() => setIsMenuOpen(false)}
-          className="p-2 rounded-full hover:bg-gray-100 transition"
-        >
-          <X className="w-6 h-6 text-gray-700" />
-        </button>
-      </div>
-
-      {/* Menu Links */}
-      <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5 text-gray-700">
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg font-medium hover:text-red-500 transition"
-        >
-          <Gift className="w-5 h-5 text-red-500" />
-          Offers
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 text-lg font-medium hover:text-red-500 transition"
-        >
-          <HelpCircle className="w-5 h-5 text-red-500" />
-          Help
-        </a>
-
-        {/* Deliver To Section */}
-        <div className="flex items-center gap-3 mt-6 cursor-pointer p-3 bg-red-50 rounded-lg hover:bg-red-100 transition">
-          <MapPin className="w-5 h-5 text-red-500" />
-          <div>
-            <p className="text-sm text-gray-600">Deliver to</p>
-            <p className="font-semibold text-gray-800 truncate">123 Main St...</p>
+              className=" w-full   md:w-full pl-10 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="relative mt-6">
-          <Search className="absolute left-4 top-2.5 text-gray-500 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search restaurants or dishes..."
-            className="w-full pl-12 pr-4 py-2.5 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-          />
-        </div>
-      </div>
+        {/* Right: Nav Links + Cart + User */}
+        <div className="flex items-center gap-6 relative">
 
-      {/* Footer */}
-      <div className="border-t px-6 py-4">
-        <button className="flex items-center gap-2 text-red-500 hover:text-red-600 font-semibold transition">
-          <LogOut className="w-5 h-5" />
-          Log Out
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+
+          {/* Cart */}
+          <div className="relative cursor-pointer">
+            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-red-500" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold px-1.5 rounded-full">
+              {cartCount}
+            </span>
+          </div>
+          {ismobile && (<>
+            <a href="#" className="text-gray-700  hover:text-red-500">
+              Offers
+            </a>
+            <a href="#" className="text-gray-700 hover:text-red-500">
+              Help
+            </a>
+          </>
+          )}
+
+
+          {/* User Button */}
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => setIsUserMenuOpen((prev) => !prev)}
+              className="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"
+            >
+              {Userdata?.fullname?.slice(0, 1)?.toUpperCase() || "U"}
+            </button>
+
+            {/* Popup Menu */}
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-3 w-40 bg-white border rounded-lg shadow-lg overflow-hidden animate-fadeIn z-50">
+                <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <User className="w-4 h-4 mr-2 text-red-500" />
+                  Account
+                </button>
+                {!ismobile && (<>
+                  <div className="flex items-center w-full  px-4 py-2 text-gray-700 hover:bg-gray-100" >
+                    <BadgePercent className="w-4 h-4 mr-2 text-red-500" />
+                    <a href="#" className="text-gray-700 hover:text-red-500">
+                      Offers
+                    </a>
+                  </div>
+                  <div className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <MessageCircleQuestionMark className="w-4 h-4 mr-2 text-red-500" />
+                    <a href="#" className="text-gray-700 hover:text-red-500">
+                      Help
+                    </a>
+                  </div>
+                </>)}
+
+                <button onClick={handleLogout} className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <LogOut className="w-4 h-4 mr-2 text-red-500" />
+                  Logout
+                </button>
+
+
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Right Section */}
+
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+
+
     </>
   );
 };

@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { BURL } from "../App";
 import { useDispatch } from "react-redux";
 import { setUserdata } from "../Redux/UserSlice";
+
 // ✅ Define validation schema using Zod
+
 
 const SignUpSchema = z.object({
     name: z.string().min(3, "Full name must be at least 3 characters."),
@@ -91,7 +93,9 @@ export default function SignUp() {
                     headers: { "Content-Type": "application/json" },
                 }
             );
+            dispach(setUserinfo(true))
             dispach(setUserdata(userdata.data))
+            navigate("/")
 
             toast.success(`Account created successfully for ${data.name}! 🎉`);
         } catch (error) {

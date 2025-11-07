@@ -7,21 +7,27 @@ import SignInPage from './Pages/Singin'
 import useCurrentuser from './hooks/useCurrentuser'
 import { useSelector } from 'react-redux'
 import Home from './Pages/Home'
+import GetCurrentLocation from './hooks/useGetCurrentLocation'
+
 export const BURL = 'http://localhost:5000'
 function App() {
   useCurrentuser();
- const {Userdata}=useSelector(state=>state.user);
+ GetCurrentLocation();
+ const {Userinfo}=useSelector(state=>state.user)
+ const {Userlocation}=useSelector(state=>state.user)
+ console.log(Userinfo)
+ console.log(Userlocation)
 
 
   return (
     <>
     <Toaster richColors position="top-center" />
    <Routes>
-    <Route path='/' element={<Home/>}/>
-    <Route path='/singup' element={!Userdata ? <SignUp /> : <Navigate to="/" />} />
-    <Route path='/reset' element={!Userdata ? <ForgotPassword /> : <Navigate to="/" />} />
+    <Route path='/' element={ !Userinfo ? <SignInPage /> : <Home /> }/>
+    <Route path='/singup' element={!Userinfo? <SignUp /> : <Navigate to="/" />} />
+    <Route path='/reset' element={!Userinfo ? <ForgotPassword /> : <Navigate to="/" />} />
 
-    <Route path='/singin' element={!Userdata ? <SignInPage /> : <Navigate to="/" />} />
+    <Route path='/singin' element={!Userinfo ? <SignInPage /> : <Navigate to="/" />} />
    </Routes>
     </>
   )
