@@ -1,0 +1,26 @@
+
+import UploadImage from "../config/cloudinery.js";
+import Shopmodel from "../models/shop.model.js";
+
+export const createNeditShop = async (req, res) => {
+    try {
+        const { name, city, state, address } = req.body
+        let image;
+        if (req.file) {
+            image = await UploadImage(req.file.path)
+        }
+        const shop=await Shopmodel.findOne({ownerId:req.userId})
+        if(!shop){
+            shop = await Shopmodel.create({ name, city, state, address, image, ownerId: req.userId });
+        }else{
+            shop= await Shopmodel.findByIdAndUpdate(shop._id,{ name, city, state, address, image, ownerId: req.userId},{new:true})
+        }
+
+            
+            await shop.populate("ownerId")
+            return res.status(201).json(shop)
+        
+    } catch (error) {
+        return res.status(500).json({ message: `create shop error ${error.message}` });
+    }
+}
