@@ -42,3 +42,5 @@ Items:{
 },{timestamps:true})
 
 const  Shopmodel= mongoose.model('Shop',ShopSchema);
+
+export default Shopmodel;
