@@ -6,40 +6,40 @@ const ItemsSchema = new mongoose.Schema({
         required: true,
 
     },
-    image:{
-        type:String,
-    required:true,
-    
+    image: {
+        type: String,
+        required: true,
+
     },
-    shop:{
+    shop: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'shop',
         required: true,
     },
-    price:{
-        type:Number,
-        min:0,
-        required:true,
+    price: {
+        type: Number,
+        min: 0,
+        required: true,
     },
-    description:{
-        type:String,    
-        required:true,
-    },
-    category:{
+    description: {
         type: String,
-        enum:['Beverages','Bread/Bakery','Dairy','Desserts','Fruits','Grains/Pulses','Snacks','Vegetables','Others'],
-        required:true,
+        required: true,
     },
-    FoodType:{
-        type:String,
-        enum:['Veg','Non-Veg'],
-        required:true,
+    category: {
+        type: String,
+        // enum: ['Beverages', 'Bread/Bakery', 'Dairy', 'Desserts', 'Fruits', 'Grains/Pulses', 'Snacks', 'Vegetables', 'Others'],
+        required: true,
+    },
+    FoodType: {
+        type: String,
+        enum: ['Veg', 'Non-Veg'],
+        required: true,
     }
 
 
 
 }, { timestamps: true });
 
-const Items= mongoose.model('Items', ItemsSchema);
+const Items = mongoose.model('Items', ItemsSchema);
 
 export default Items;

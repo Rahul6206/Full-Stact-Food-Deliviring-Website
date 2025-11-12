@@ -48,7 +48,7 @@ export const Singup = async (req, res) => {
     }
 }
 export const Singin = async (req, res) => {
-    console.log(req.body);
+   
 
     try {
         const { email, password } = req.body;
@@ -72,7 +72,7 @@ export const Singin = async (req, res) => {
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000
         });
-
+        console.log(user.role)
         return res.status(200).json({ message: "User Login successfully", user });
 
     } catch (error) {
