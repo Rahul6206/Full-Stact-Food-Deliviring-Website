@@ -9,7 +9,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { BURL } from "../App";
 import { useDispatch } from "react-redux";
-import { setUserdata } from "../Redux/UserSlice";
+import { setUserdata, setUserinfo } from "../Redux/UserSlice";
 
 // ✅ Define validation schema using Zod
 
@@ -100,7 +100,7 @@ export default function SignUp() {
             toast.success(`Account created successfully for ${data.name}! 🎉`);
         } catch (error) {
            
-            toast.warning(`${error.response?.data.message}`)
+            toast.warning(`Frontend Error: ${error.message}`)
            
         }
     };

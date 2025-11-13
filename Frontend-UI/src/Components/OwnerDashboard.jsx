@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Home, Package, MenuSquare, DollarSign, Store, Truck, Star, Users, Bell, Settings, TrendingUp, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import UserButton from './UserButton';
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
+ 
   const [orders, setOrders] = useState([
     { id: 'ORD001', customer: 'John Doe', status: 'Preparing', time: '10:30 AM', payment: 'Paid', total: 45.99, items: 'Burger, Fries, Coke' },
     { id: 'ORD002', customer: 'Jane Smith', status: 'Out for Delivery', time: '10:15 AM', payment: 'COD', total: 32.50, items: 'Pizza, Salad' },
@@ -366,19 +369,19 @@ const OwnerDashboard = () => {
           <div className="flex items-center gap-3">
             <div className="text-3xl">🍽️</div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Tasty Bites</h1>
-              <p className="text-sm text-gray-600">Owner OwnerDashboard</p>
+              <h1 className="text-2xl font-bold text-gray-800">Foody Zone</h1>
+              
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
+            <div onClick={()=>setActiveTab('notifications')} className="relative">
               <Bell className="text-gray-600 cursor-pointer" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 3
               </span>
             </div>
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-              A
+            <div>
+              <UserButton ismobile={true}/>
             </div>
           </div>
         </div>
