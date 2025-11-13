@@ -29,7 +29,7 @@ const Overview = () => {
     return (
         <div className="space-y-6">
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-fit">
                 <StatCard icon={Package} title="Total Orders Today" value="47" subtitle="12 pending" trend="up" />
                 <StatCard icon={DollarSign} title="Revenue Today" value="$1,842" subtitle="$15,420 this week" trend="up" />
                 <StatCard icon={Clock} title="Avg Delivery Time" value="28 min" subtitle="Target: 30 min" />

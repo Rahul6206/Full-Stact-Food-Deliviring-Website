@@ -52,19 +52,19 @@ const OwnerDashboard = () => {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-lg min-h-screen">
+        <aside className="w-fit md:w-64 bg-white shadow-lg min-h-screen">
           <nav className="p-4">
             {menuItems_nav.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition ${activeTab === item.id
+                className={`w-fit md:w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition ${activeTab === item.id
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <item.icon size={20} />
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium hidden md:block">{item.label}</span>
               </button>
             ))}
           </nav>

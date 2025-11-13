@@ -13,7 +13,9 @@ const Menu = () => {
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-semibold">Menu Management</h3>
           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            + Add New Item
+           
+           <span className='flex items-center justify-between gap-2'><p>  + </p> <p className='hidden md:block'>Add New Item</p></span>
+          
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
