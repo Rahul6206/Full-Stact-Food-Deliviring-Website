@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import NavBar from '../Components/NavBar';
-import OwnerDashboard from '../Components/OwnerDashboard';
+import OwnerDashboard from './OwnerDashboard';
 
 const Home = () => {
   const { Userdata } = useSelector(state => state.user);

@@ -8,19 +8,28 @@ import useCurrentuser from './hooks/useCurrentuser'
 import { useSelector } from 'react-redux'
 import Home from './Pages/Home'
 import GetCurrentLocation from './hooks/useGetCurrentLocation'
+import useGetOwnerShop from './hooks/useGetOwnerShop'
+import GetShopItems from './hooks/useGetShopItems'
 
 export const BURL = 'http://localhost:5000'
 function App() {
   useCurrentuser();
+
  GetCurrentLocation();
+ useGetOwnerShop();
+ GetShopItems();
+ 
  const {Userinfo}=useSelector(state=>state.user)
  const {Userlocation}=useSelector(state=>state.user)
+ const {Shopdata,ShopItems} = useSelector(state=>state.Owner)
+ console.log(Shopdata)
+ console.log("All Items:",ShopItems)
  console.log(Userinfo)
  console.log(Userlocation)
-
-
-  return (
-    <>
+ 
+ 
+ return (
+   <>
     <Toaster richColors position="top-center" />
    <Routes>
     <Route path='/' element={ !Userinfo ? <SignInPage /> : <Home /> }/>

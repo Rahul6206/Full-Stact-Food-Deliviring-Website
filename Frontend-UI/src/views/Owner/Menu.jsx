@@ -7,12 +7,15 @@ const Menu = () => {
     { id: 3, name: 'Caesar Salad', category: 'Appetizers', price: 8.99, stock: 'Available', image: '🥗' },
     { id: 4, name: 'Chocolate Cake', category: 'Desserts', price: 6.99, stock: 'Out of Stock', image: '🍰' },
   ]);
+  const handleitemClick=()=>{
+    console.log('first: ')
+  }
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-semibold">Menu Management</h3>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          <button onClick={handleitemClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
            
            <span className='flex items-center justify-between gap-2'><p>  + </p> <p className='hidden md:block'>Add New Item</p></span>
           
@@ -32,7 +35,7 @@ const Menu = () => {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button className="flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded text-sm hover:bg-blue-200">
+                <button  className="flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded text-sm hover:bg-blue-200">
                   Edit
                 </button>
                 <button className="flex-1 bg-red-100 text-red-700 px-3 py-2 rounded text-sm hover:bg-red-200">

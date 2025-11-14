@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setShopRegister } from '../../Redux/OwnerSlice'; 
 const Restaurant = () => {
+  
+  const dispatch= useDispatch();
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(true);
+  
+  
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative bg-amber-600">
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-xl font-semibold mb-6">Restaurant Settings</h3>
         <div className="space-y-4">
@@ -36,6 +41,11 @@ const Restaurant = () => {
             <p className="text-gray-700">Address: 123 Food Street, City, State 12345</p>
           </div>
         </div>
+
+      </div>
+      <div className='absolute bottom--15 bg-green-300 left-1/2 border rounded-2xl'>
+
+        <button onClick={()=>dispatch(setShopRegister(true))} className='p-2 text-orange-700 font-semibold cursor-pointer '>Edit</button>
       </div>
     </div>
 
