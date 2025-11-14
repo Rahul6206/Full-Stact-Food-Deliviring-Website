@@ -9,7 +9,7 @@ name:{
 },
 image:{
     type:String,
-    required:true,
+    
     
 },
 ownerId:{

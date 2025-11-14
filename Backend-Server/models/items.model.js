@@ -4,16 +4,16 @@ const ItemsSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique:true,
 
     },
     image: {
-        type: String,
-        required: true,
+        type: String, 
 
     },
     shop: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'shop',
+        ref: 'ownerId',
         required: true,
     },
     price: {
