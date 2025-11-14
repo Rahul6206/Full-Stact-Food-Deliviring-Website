@@ -7,6 +7,8 @@ import ConnectMongoDB from './config/db.js';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.route.js';
 import userRoutes from './routes/user.route.js';
+import shoproute from './routes/shop.route.js';
+import Itemroute from './routes/item.route.js';
 
 // Load environment variables
 const app = express();
@@ -25,7 +27,9 @@ app.use(express.json());
 app.use(cookieParser())
 app.use('/api/auth',authRouter); 
 app.use('/api/auth',userRoutes); 
-
+app.use('/owner',shoproute)
+app.use('/owner/item',Itemroute)
+ 
 // Routes
 app.get('/', (req, res) => {
     console.log("Server is running..."); 
