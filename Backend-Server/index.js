@@ -28,7 +28,8 @@ app.use(cookieParser())
 app.use('/api/auth',authRouter); 
 app.use('/api/auth',userRoutes); 
 app.use('/owner',shoproute)
-app.use('/owner/item',Itemroute)
+app.use('/owner/item', Itemroute)
+
  
 // Routes
 app.get('/', (req, res) => {

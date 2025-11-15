@@ -45,7 +45,7 @@ export const EditItems = async (req, res) => {
         }, { new: true });  // Ensure we return the updated item
 
         if (!updatedItem) {
-            return res.status(404).json({ message: 'Item not found' });
+            return res.status(404).json({ message: 'Item not found ha ha' });
         }
 
         return res.status(200).json({ message: `Item updated successfully`, updatedItem });
