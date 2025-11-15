@@ -5,7 +5,7 @@ import OwnerDashboard from './OwnerDashboard';
 
 const Home = () => {
   const { Userdata } = useSelector(state => state.user);
-  console.log(Userdata.role)
+ 
  
   return (
     <div className='w-screen h-screen bg-red-300 '>
