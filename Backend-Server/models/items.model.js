@@ -27,7 +27,6 @@ const ItemsSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        // enum: ['Beverages', 'Bread/Bakery', 'Dairy', 'Desserts', 'Fruits', 'Grains/Pulses', 'Snacks', 'Vegetables', 'Others'],
         required: true,
     },
     FoodType: {

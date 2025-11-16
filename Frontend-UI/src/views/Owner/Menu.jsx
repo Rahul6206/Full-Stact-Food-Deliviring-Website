@@ -2,45 +2,29 @@ import React, { useState } from "react";
 import axios from "axios";
 import { BURL } from "../../App";
 import { useFetch } from "../../hooks/useItems";
+import AddItemForm from "./AddAndEditItemFrom";
+
 
 const Menu = () => {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [ShowitemForm, setShowitemForm] = useState(false)
+  const [EditItem, setEditItem] = useState(null)
+  const [RequestType, setRequestType] = useState('')
   const { data: menuItems, loading, error, refetch } = useFetch(
-    `${BURL}/owner/item/getItem`
+    `${BURL}/owner/item/getItem`,
   );
 
-  const [loadingDelete, setLoadingDelete] = useState(false);
 
   const handleEditItem = async (item) => {
-  console.log("Editing item:", item._id);
+  console.log("Editing item:", item);
+  setEditItem(item);
+  setRequestType('edit');
+  setShowitemForm(true);
+  
 
-  try {
-    const response = await axios.put(
-      `${BURL}/owner/item/editItem/${item._id}`,
-      {
-        name: item.name,
-        price: item.price,
-        description: item.description,
-        category: item.category,
-        FoodType: item.FoodType,
-        image: item.image
-      },
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    console.log("Item Updated:", response.data);
-
-    alert("Item updated successfully!");
-
-    // Refresh updated list
-    refetch();
-  } catch (error) {
-    console.error(error);
-    alert("Failed to update item");
-  }
+  
 };
+
 
 
   // ---------------------
@@ -67,11 +51,20 @@ const Menu = () => {
     }
   };
 
+  const handleAdditem=()=>{
+    setRequestType('add');
+    setEditItem(null);
+    setShowitemForm(true);
+  }
+
+
   // ---------------------
   //  LOADING & ERROR
   // ---------------------
   if (loading) return <div className="p-6">Loading menu...</div>;
   if (error) return <div className="p-6 text-red-600">Error loading menu</div>;
+  if(ShowitemForm) return <AddItemForm setShowitemForm={setShowitemForm} refetch={refetch} formeditdata={EditItem} RequestType={RequestType}/>;
+  
 
   return (
     <div className="space-y-6">
@@ -80,7 +73,7 @@ const Menu = () => {
           <h3 className="text-xl font-semibold">Menu Management</h3>
 
           {/* Add new item btn */}
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          <button onClick={handleAdditem} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
             <span className="flex items-center gap-2">
               <p>+</p> <p className="hidden md:block">Add New Item</p>
             </span>

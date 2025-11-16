@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 export const useFetch = (url) => {
@@ -6,25 +6,29 @@ export const useFetch = (url) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let isMounted = true;
+  // Create fetchData function OUTSIDE useEffect so refetch can call it
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(url, { withCredentials: true });
-        console.log(response.data)
-        if (isMounted) setData(response.data);
-      } catch (err) {
-        if (isMounted) setError(err);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    fetchData();
-
-    return () => { isMounted = false }; // cleanup to prevent memory leak
+    try {
+      const response = await axios.get(url, { withCredentials: true });
+      setData(response.data);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
   }, [url]);
 
-  return { data, loading, error };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return {
+    data,
+    loading,
+    error,
+    refetch: fetchData,  // now you can call refetch()
+  };
 };
