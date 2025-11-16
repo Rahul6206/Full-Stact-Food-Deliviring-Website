@@ -3,6 +3,7 @@ import axios from "axios";
 import { BURL } from "../../App";
 import { useFetch } from "../../hooks/useItems";
 import AddItemForm from "./AddAndEditItemFrom";
+import { toast } from "sonner";
 
 
 const Menu = () => {
@@ -13,20 +14,15 @@ const Menu = () => {
   const { data: menuItems, loading, error, refetch } = useFetch(
     `${BURL}/owner/item/getItem`,
   );
-
-
+ 
   const handleEditItem = async (item) => {
-  console.log("Editing item:", item);
-  setEditItem(item);
-  setRequestType('edit');
-  setShowitemForm(true);
-  
-
-  
-};
-
-
-
+    console.log("Editing item:", item);
+    setEditItem(item);
+    setRequestType('edit');
+    setShowitemForm(true);
+ 
+  };
+ 
   // ---------------------
   //  DELETE ITEM
   // ---------------------
@@ -35,23 +31,23 @@ const Menu = () => {
 
     try {
       setLoadingDelete(true);
-      await axios.delete(`${BURL}/owner/item/deleteItem/${id}`, {
+      await axios.delete(`${BURL}/owner/item/delete/${id}`, {
         withCredentials: true,
       });
 
-      alert("Item deleted successfully!");
+      toast.success("Item deleted successfully!");
 
       // Refresh the list
       refetch();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete item");
+      toast.error("Failed to delete item");
     } finally {
       setLoadingDelete(false);
     }
   };
 
-  const handleAdditem=()=>{
+  const handleAdditem = () => {
     setRequestType('add');
     setEditItem(null);
     setShowitemForm(true);
@@ -63,8 +59,8 @@ const Menu = () => {
   // ---------------------
   if (loading) return <div className="p-6">Loading menu...</div>;
   if (error) return <div className="p-6 text-red-600">Error loading menu</div>;
-  if(ShowitemForm) return <AddItemForm setShowitemForm={setShowitemForm} refetch={refetch} formeditdata={EditItem} RequestType={RequestType}/>;
-  
+  if (ShowitemForm) return <AddItemForm setShowitemForm={setShowitemForm} refetch={refetch} formeditdata={EditItem} RequestType={RequestType} />;
+
 
   return (
     <div className="space-y-6">
@@ -99,11 +95,10 @@ const Menu = () => {
                 </span>
 
                 <span
-                  className={`px-2 py-1 text-xs rounded-full ${
-                    item.stock === "Available"
+                  className={`px-2 py-1 text-xs rounded-full ${item.stock === "Available"
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
-                  }`}
+                    }`}
                 >
                   {item.stock}
                 </span>

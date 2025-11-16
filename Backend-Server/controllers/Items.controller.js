@@ -75,3 +75,29 @@ export const Getitems = async (req, res) => {
     }
 }
 
+export const DeleteItem = async (req, res) => {
+    try {
+        const itemId = req.params.itemId;
+
+        // Find the shop of this user
+        const shop = await Shopmodel.findOne({ ownerId: req.userId });
+        if (!shop) {
+            return res.status(404).json({ message: "Shop not found" });
+        }
+
+        // Check if item belongs to this shop
+        const item = await Items.findOne({ _id: itemId, shop: shop._id });
+        if (!item) {
+            return res.status(404).json({ message: "Item not found or not authorized" });
+        }
+
+        // Delete item
+        await Items.findByIdAndDelete(itemId);
+
+        return res.status(200).json({ message: "Item deleted successfully" });
+
+    } catch (error) {
+        return res.status(500).json({ message: `Delete Item error: ${error.message}` });
+    }
+};
+
