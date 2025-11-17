@@ -41,10 +41,11 @@ const AddItemForm = ({ setShowitemForm, refetch, formeditdata, RequestType }) =>
                         image: item.image
                     },
                     {
-                        withCredentials: true,
-                        headers: { "Content-Type": "application/json" },
+                        withCredentials: true, 
+                        headers: { "Content-Type": "multipart/form-data" },
                     }
                 );
+                console.log(response)
             }
             if(RequestType==='add'){
                 const response = await axios.post(
@@ -58,7 +59,7 @@ const AddItemForm = ({ setShowitemForm, refetch, formeditdata, RequestType }) =>
                 },
                     {
                         withCredentials: true,
-                        headers: { "Content-Type": "application/json" },
+                        headers: { "Content-Type": "multipart/form-data" },
                     }
                 );
             }

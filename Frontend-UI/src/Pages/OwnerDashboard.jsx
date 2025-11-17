@@ -41,6 +41,9 @@ const OwnerDashboard = () => {
 
             </div>
           </div>
+          <div>
+              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 capitalize text-center text-blue-700 ">Rahul Kumar Shop</h2>
+            </div>
           <div className="flex items-center gap-4">
             <div onClick={() => setActiveTab('notifications')} className="relative">
               <Bell className="text-gray-600 cursor-pointer" />
@@ -78,6 +81,7 @@ const OwnerDashboard = () => {
           {/* Main Content */}
 
           <main className="flex-1 p-6">
+            
             {activeTab === 'overview' && <Overview />}
             {activeTab === 'orders' && <Orders />}
             {activeTab === 'menu' && <Menu />}

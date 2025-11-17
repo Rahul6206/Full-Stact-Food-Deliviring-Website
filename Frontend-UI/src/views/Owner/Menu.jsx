@@ -81,9 +81,17 @@ const Menu = () => {
           {menuItems.map((item) => (
             <div
               key={item._id}
-              className="border rounded-lg p-4 hover:shadow-lg transition"
+              className="border rounded-lg p-4 hover:shadow-lg transition  "
             >
-              <img src={item.image} alt={item.name} className="rounded mb-3" />
+              <div className="w-full h-48 overflow-hidden flex items-center justify-center mb-4 bg-white">
+
+              {item.image ?
+              <img src={item.image} alt={item.name} className="rounded mb-3 object-cover" />:
+              <div className="w-full h-32 bg-gray-200 flex items-center justify-center rounded mb-3">
+                <span className="text-gray-500">No Image</span>
+              </div>
+              }
+              </div>
 
               <h4 className="font-semibold text-lg mb-2">{item.name}</h4>
               <p className="text-sm text-gray-600 mb-2">{item.category}</p>

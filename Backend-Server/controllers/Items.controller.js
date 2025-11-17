@@ -5,22 +5,50 @@ import Shopmodel from "../models/shop.model.js";
 export const CreateItem = async (req, res) => {
     try {
         const { name, price, description, category, FoodType } = req.body;
-        let image;
-        if (req.file) {
-            image = await UploadImage(req.file.path);
-        }
 
-        const ShopId = await Shopmodel.findOne({ ownerId: req.userId })
-        if (!ShopId) {
+        // Validate required fields
+        if (!name || !price || !category) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+console.log("FILE COMING FROM MULTER:", req.file);
+
+        // Validate shop
+        const shop = await Shopmodel.findOne({ ownerId: req.userId });
+        if (!shop) {
             return res.status(401).json({ message: 'Shop not found' });
         }
-        const newitems = await Items.create({ name, price, description, category, FoodType, image, shop: ShopId._id });
 
-        return res.status(201).json({ message: `Items Created succesfully `,newitems })
+        // Upload image if exists
+        let image = null;
+        if (req.file) {
+            image = await UploadImage(req.file.path);
+
+            if (!image) {
+                return res.status(500).json({ message: "Image upload failed" });
+            }
+        }
+
+        // Create item
+        const newItem = await Items.create({
+            name,
+            price,
+            description,
+            category,
+            FoodType,
+            image,
+            shop: shop._id
+        });
+
+        return res.status(201).json({
+            message: "Item created successfully",
+            newItem
+        });
+
     } catch (error) {
-        return res.status(500).json({ message: `Add Items error ${error.message}` });
+        return res.status(500).json({ message: `Add Items error: ${error.message}` });
     }
-}
+};
+
 
 
 export const EditItems = async (req, res) => {
@@ -33,7 +61,7 @@ export const EditItems = async (req, res) => {
         if (req.file) {
             image = await UploadImage(req.file.path);
         }
-
+        console.log(image)
         // Find and update the item
         const updatedItem = await Items.findByIdAndUpdate(itemid, {
             name,
