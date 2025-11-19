@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { BURL } from '../../App';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setShopdata, setShopRegister } from '../../Redux/OwnerSlice';
 import { toast } from 'sonner';
+import { Upload } from 'lucide-react';
 
 export default function ShopRegistrationFrom() {
-    
+    const {Shopdata} = useSelector(state=>state.Owner)
     const dispatch= useDispatch()
     const [formData, setFormData] = useState({
-        name: '',
-        city: '',
-        state: '',
-        address: ''
+        name: "" || Shopdata?.name,
+        city: "" || Shopdata?.city,
+        state: "" || Shopdata?.state,
+        address: "" || Shopdata?.address,
+        image: null || Shopdata?.image,
     });
 
     const [errors, setErrors] = useState({});
@@ -53,6 +55,9 @@ export default function ShopRegistrationFrom() {
 
         return newErrors;
     };
+    const handleImage = (e) => {
+        setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+    };
 
     const handleSubmit = async () => {
         const newErrors = validate();
@@ -60,8 +65,14 @@ export default function ShopRegistrationFrom() {
         if (Object.keys(newErrors).length === 0) {
             try {
             const res = await axios.post(
-                `${BURL}/owner/createShop`,formData,
-                { withCredentials: true, headers: { "Content-Type": "application/json" } }
+                `${BURL}/owner/createShop`,{
+                 name:   formData.name,
+                  city:  formData.city,
+                  state:  formData.state,
+                   address: formData.address,
+                   image:  formData.image
+                },
+                { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
             );
             if(res){
 
@@ -171,6 +182,17 @@ export default function ShopRegistrationFrom() {
                             <p className="text-red-500 text-sm mt-1">{errors.address}</p>
                         )}
                     </div>
+                    {/* Image Upload */}
+                <div>
+                    <label className="block font-medium mb-1">Upload Image</label>
+                    <label
+                        className="flex items-center gap-3 px-4 py-2 border rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100"
+                    >
+                        <Upload className="w-5 h-5 text-gray-600" />
+                        <span>Choose image</span>
+                        <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
+                    </label>
+                </div>
 
                     <button
                         onClick={handleSubmit}

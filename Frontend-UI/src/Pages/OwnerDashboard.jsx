@@ -42,7 +42,7 @@ const OwnerDashboard = () => {
             </div>
           </div>
           <div>
-              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 capitalize text-center text-blue-700 ">Rahul Kumar Shop</h2>
+              <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 capitalize text-center text-blue-700 ">{Shopdata?.name}</h2>
             </div>
           <div className="flex items-center gap-4">
             <div onClick={() => setActiveTab('notifications')} className="relative">
@@ -57,7 +57,7 @@ const OwnerDashboard = () => {
           </div>
         </div>
       </header>
-      {(Shopdata && !ShopRegister) ? (<>
+      {(Shopdata && ShopRegister === false) ? (<>
 
         <div className="flex">
           {/* Sidebar */}

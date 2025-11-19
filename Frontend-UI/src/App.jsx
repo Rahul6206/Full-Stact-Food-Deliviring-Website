@@ -20,12 +20,7 @@ function App() {
 
  
  const {Userinfo}=useSelector(state=>state.user)
- const {Userlocation}=useSelector(state=>state.user)
- const {Shopdata} = useSelector(state=>state.Owner)
- console.log(Shopdata)
- 
- console.log(Userinfo)
- console.log(Userlocation)
+
  
  
  return (

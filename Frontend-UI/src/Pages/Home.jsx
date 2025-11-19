@@ -2,13 +2,14 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import NavBar from '../Components/NavBar';
 import OwnerDashboard from './OwnerDashboard';
+import RestaurantListing from './RestaurantListing';
 
 const Home = () => {
   const { Userdata } = useSelector(state => state.user);
  
  
   return (
-    <div className='w-screen h-screen bg-red-300 '>
+    <div className='w-screen h-screen '>
 
       {Userdata?.role === "Owner" && (
         <>
@@ -19,6 +20,7 @@ const Home = () => {
       {Userdata?.role === "user" && (
         <>
             <NavBar/>
+            <RestaurantListing/>
         </>
        
       )}

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { BURL } from "../App";
 import { useDispatch } from "react-redux";
 import { setUserdata, setUserinfo } from "../Redux/UserSlice";
+import useCurrentuser from "../hooks/useCurrentuser";
 
 // ✅ Define validation schema using Zod
 
@@ -95,7 +96,9 @@ export default function SignUp() {
             );
             dispach(setUserinfo(true))
             dispach(setUserdata(userdata.data))
-            navigate("/")
+          
+            navigate("/");
+            window.location.reload();
 
             toast.success(`Account created successfully for ${data.name}! 🎉`);
         } catch (error) {
