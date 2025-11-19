@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   Shopdata: null,
   ShopRegister: false,
-  ShopItems: null,
+  ShopItems: [],
 }
 
 export const OwnerSlice = createSlice({

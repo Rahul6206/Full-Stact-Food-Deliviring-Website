@@ -1,10 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setShopItems } from "../Redux/OwnerSlice";
 
 export const useFetch = (url) => {
-  const [data, setData] = useState([]);
+ 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch=useDispatch();
 
   // Create fetchData function OUTSIDE useEffect so refetch can call it
   const fetchData = useCallback(async () => {
@@ -13,7 +16,7 @@ export const useFetch = (url) => {
 
     try {
       const response = await axios.get(url, { withCredentials: true });
-      setData(response.data);
+      dispatch(setShopItems(response.data));
     } catch (err) {
       setError(err);
     } finally {
@@ -26,7 +29,7 @@ export const useFetch = (url) => {
   }, [fetchData]);
 
   return {
-    data,
+    
     loading,
     error,
     refetch: fetchData,  // now you can call refetch()

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Clock, MapPin, Leaf, Drumstick, Percent } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const restaurants = [
   {
@@ -110,6 +111,7 @@ const restaurants = [
 
 export default function RestaurantListing() {
   const [filter, setFilter] = useState('all');
+  const {Userlocation}= useSelector(state=>state.user);
 
   const filteredRestaurants = restaurants.filter(restaurant => {
     if (filter === 'veg') return restaurant.isVeg;
@@ -123,7 +125,7 @@ export default function RestaurantListing() {
       <header className="bg-white shadow-sm ">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <h1 className="text-3xl font-bold text-gray-900">Restaurants Near You</h1>
-          <p className="text-gray-600 mt-1">Jhansi, Uttar Pradesh</p>
+          <p className="text-gray-600 mt-1">{Userlocation}</p>
         </div>
       </header>
 

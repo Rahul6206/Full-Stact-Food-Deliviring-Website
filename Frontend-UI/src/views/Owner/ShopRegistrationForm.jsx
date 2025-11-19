@@ -76,7 +76,7 @@ export default function ShopRegistrationFrom() {
             );
             if(res){
 
-                dispatch(setShopdata(formData))
+                
                 dispatch(setShopRegister(false))
                 toast.success("Form submitted Successfully");
                 console.log(res); 

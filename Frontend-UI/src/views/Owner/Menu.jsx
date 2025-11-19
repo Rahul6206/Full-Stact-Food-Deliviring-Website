@@ -4,14 +4,16 @@ import { BURL } from "../../App";
 import { useFetch } from "../../hooks/useItems";
 import AddItemForm from "./AddAndEditItemFrom";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 
 const Menu = () => {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [ShowitemForm, setShowitemForm] = useState(false)
   const [EditItem, setEditItem] = useState(null)
+  const {ShopItems}=useSelector(state=>state.Owner);
   const [RequestType, setRequestType] = useState('')
-  const { data: menuItems, loading, error, refetch } = useFetch(
+  const {  loading, error, refetch } = useFetch(
     `${BURL}/owner/item/getItem`,
   );
  
@@ -78,7 +80,7 @@ const Menu = () => {
 
         {/* ITEMS LIST */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {menuItems.map((item) => (
+          {ShopItems.map((item) => (
             <div
               key={item._id}
               className="border rounded-lg p-4 hover:shadow-lg transition  "

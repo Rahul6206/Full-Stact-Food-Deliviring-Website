@@ -42,7 +42,7 @@ const NavBar = () => {
   return (
     <>
       {/* Main Navbar */}
-      <nav className="flex md:w-[80vw]  mr-auto ml-auto items-center justify-evenly md:justify-between px-6 py-4 border-b shadow-sm bg-white z-50 rounded-b-lg sticky top-0 z-10">
+      <nav className="flex md:w-[80vw]  mr-auto ml-auto items-center justify-evenly md:justify-between px-6 py-4 border-b shadow-sm bg-white z-50 rounded-b-lg sticky top-0 ">
         {/* Left: Logo */}
         <div className="hidden md:block text-2xl font-bold text-gray-800 cursor-pointer">
           FoodyZone

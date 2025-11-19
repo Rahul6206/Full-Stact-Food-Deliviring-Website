@@ -13,10 +13,10 @@ import useGetOwnerShop from './hooks/useGetOwnerShop'
 
 export const BURL = 'http://localhost:5000'
 function App() {
+  useGetOwnerShop();
   useCurrentuser();
 
  GetCurrentLocation();
- useGetOwnerShop();
 
  
  const {Userinfo}=useSelector(state=>state.user)
