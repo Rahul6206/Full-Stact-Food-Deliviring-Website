@@ -9,8 +9,10 @@ import Restaurant from '../views/Owner/Restaurant';
 import Reviews from '../views/Owner/Reviews';
 import { useSelector } from 'react-redux';
 import ShopRegistrationFrom from '../views/Owner/ShopRegistrationForm';
+import useGetOwnerShop from '../hooks/useGetOwnerShop';
 
 const OwnerDashboard = () => {
+  useGetOwnerShop();
   
   const { Shopdata,ShopRegister } = useSelector(state => state.Owner)
   const [activeTab, setActiveTab] = useState('overview');
@@ -28,7 +30,7 @@ const OwnerDashboard = () => {
     { id: 'notifications', icon: Bell, label: 'Notifications' },
     { id: 'settings', icon: Settings, label: 'Settings' },
   ];
-
+console.log(Shopdata)
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -58,6 +60,7 @@ const OwnerDashboard = () => {
         </div>
       </header>
       {(Shopdata && ShopRegister === false) ? (<>
+     
 
         <div className="flex">
           {/* Sidebar */}
