@@ -135,7 +135,7 @@ export const GetAllitems = async (req, res) => {
         
 
         // Get items of this shop
-        const items = await Items.find({}).limit(20);
+        const items = await Items.find({}).limit(4);
 
         return res.status(200).json(items);
 
