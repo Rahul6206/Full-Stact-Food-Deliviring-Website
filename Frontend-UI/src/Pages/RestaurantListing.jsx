@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Leaf, Drumstick} from 'lucide-react';
+import { Leaf, Drumstick } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useFetch } from '../hooks/useItems';
 import { BURL } from '../App';
 import FoodCard from '../views/User/FoodCard';
+import { useRef } from 'react';
+import { useCallback } from 'react';
 
 // const restaurants = [
 //   {
@@ -19,14 +21,33 @@ import FoodCard from '../views/User/FoodCard';
 //     isVeg: true,
 //     discount: "50% OFF up to ₹100"
 //   },
-  
+
 // ];
+
+
 
 
 export default function RestaurantListing() {
   const { loading, error, refetch } = useFetch(
     `${BURL}/owner/item/getAllItem`,
   );
+
+  const observer = useRef();
+  useCallback(node => {
+    if (loading || error) return;
+    if (observer.current) observer.current.disconnect(); // Stop observing the previous element
+
+    observer.current = new IntersectionObserver(entries => {
+      // If the element is intersecting (visible) and there is more data to load
+      if (entries[0].isIntersecting) {
+        refetch(); // Trigger fetching the next page
+      }
+    });
+
+
+    if (node) observer.current.observe(node); // Start observing the current element
+
+  }, [loading]);
 
 
 
@@ -58,8 +79,8 @@ export default function RestaurantListing() {
           <button
             onClick={() => setFilter('all')}
             className={`px-6 py-2 rounded-full font-medium transition-all ${filter === 'all'
-                ? 'bg-orange-600 text-white shadow-md'
-                : 'bg-white text-gray-700 border border-gray-300 hover:border-orange-600'
+              ? 'bg-orange-600 text-white shadow-md'
+              : 'bg-white text-gray-700 border border-gray-300 hover:border-orange-600'
               }`}
           >
             All
@@ -67,8 +88,8 @@ export default function RestaurantListing() {
           <button
             onClick={() => setFilter('veg')}
             className={`px-6 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${filter === 'veg'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-white text-gray-700 border border-gray-300 hover:border-green-600'
+              ? 'bg-green-600 text-white shadow-md'
+              : 'bg-white text-gray-700 border border-gray-300 hover:border-green-600'
               }`}
           >
             <Leaf className="w-4 h-4" />
@@ -77,8 +98,8 @@ export default function RestaurantListing() {
           <button
             onClick={() => setFilter('nonveg')}
             className={`px-6 py-2 rounded-full font-medium transition-all flex items-center gap-2 ${filter === 'nonveg'
-                ? 'bg-red-600 text-white shadow-md'
-                : 'bg-white text-gray-700 border border-gray-300 hover:border-red-600'
+              ? 'bg-red-600 text-white shadow-md'
+              : 'bg-white text-gray-700 border border-gray-300 hover:border-red-600'
               }`}
           >
             <Drumstick className="w-4 h-4" />
@@ -88,7 +109,7 @@ export default function RestaurantListing() {
       </div>
 
       {/* Restaurant Grid */}
-      <div className="max-w-7xl mx-auto px-4 pb-12">
+      <div ref={observer} className="max-w-7xl mx-auto px-4 pb-12">
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredRestaurants.map(item => (
