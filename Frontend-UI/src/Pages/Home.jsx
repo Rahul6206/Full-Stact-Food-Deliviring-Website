@@ -21,7 +21,7 @@ const Home = () => {
         <>
             <NavBar/>
             <RestaurantListing/>
-            <RestaurantListingx/>
+            {/* <RestaurantListingx/> */}
         </>
        
       )}

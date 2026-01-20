@@ -256,7 +256,7 @@ export default function RestaurantListingx() {
                                 <div className="flex items-center justify-between mb-3">
                                     <div className="flex items-center gap-1 bg-green-700 text-white px-2 py-1 rounded">
                                         <Star className="w-4 h-4 fill-white" />
-                                        <span className="font-semibold text-sm">{restaurant.rating}</span>
+                                        <span className="font-semibold text-sm">{restaurant.rating} </span>
                                     </div>
                                     <span className="text-gray-500 text-sm">({restaurant.reviews})</span>
                                 </div>
