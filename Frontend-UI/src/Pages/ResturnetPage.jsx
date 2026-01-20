@@ -131,7 +131,7 @@ export default function RestaurantListingx() {
     const [quantity, setQuantity] = useState(1);
     const [userRating, setUserRating] = useState(0);
     const [hoveredStar, setHoveredStar] = useState(0);
-  
+
 
     const filteredRestaurants = restaurants.filter(restaurant => {
         if (filter === 'veg') return restaurant.isVeg;
@@ -299,7 +299,7 @@ export default function RestaurantListingx() {
                         backgroundImage: `url(${selectedRestaurant.image})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                       
+
                     }}>
                     {/* <img src={selectedRestaurant.image} alt="background image" className=' -z-10 w-screen h-screen' /> */}
                     <div className="bg-white opacity-100 rounded-2xl max-w-2xl w-full max-h-[90vh] backdrop-blur-3xl overflow-y-auto">
@@ -443,7 +443,7 @@ export default function RestaurantListingx() {
                                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg"
                             >
                                 <ShoppingCart className="w-5 h-5" />
-                                Add to Cart - {selectedRestaurant.price} * {quantity} 
+                                Add to Cart - {selectedRestaurant.price} * {quantity}
                             </button>
                         </div>
                     </div>
