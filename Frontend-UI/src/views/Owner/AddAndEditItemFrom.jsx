@@ -48,7 +48,7 @@ const AddItemForm = ({ setShowitemForm, refetch, formeditdata, RequestType }) =>
                 console.log(response)
             }
             if(RequestType==='add'){
-                const response = await axios.post(
+                 await axios.post(
                     `${BURL}/owner/item/createItem`, {
                     name: item.name,
                     price: item.price,
