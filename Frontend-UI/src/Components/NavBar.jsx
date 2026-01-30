@@ -7,7 +7,7 @@ import UserButton from "./UserButton";
 
 const NavBar = () => {
   const [ismobile, setIismobile] = useState(false);
- 
+ const [serchvalue, setSearchvalue] = useState("");
 
 
   const cartCount = 3; // Example item count
@@ -66,10 +66,12 @@ const NavBar = () => {
             <input
               type="text"
               placeholder="Search for restaurants or dishes..."
-
+              value={serchvalue}
+              onChange={(e) => setSearchvalue(e.target.value)}
               className=" w-full   md:w-full pl-10 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
             />
           </div>
+          <div><button  className="bg-amber-600 rounded-2xl p-2 px-4 cursor-pointer ">Search</button></div>
         </div>
 
         {/* Right: Nav Links + Cart + User */}

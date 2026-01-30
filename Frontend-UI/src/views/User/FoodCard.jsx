@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Leaf, Drumstick, X, Star, Clock, MapPin, Percent, Minus, Plus, ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 
 export default function FoodCard({ item }) {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -12,7 +13,8 @@ export default function FoodCard({ item }) {
 
 
     // Actual Logic I Write here 
-    alert(`Added ${quantity}  ${selectedRestaurant.name} to cart!\nYour Rating: ${userRating} stars`);
+    // alert(`Added ${quantity}  ${selectedRestaurant.name} to cart!\nYour Rating: ${userRating} stars`);
+    toast.success(`${quantity} x ${selectedRestaurant.name} added to cart!`);
     setSelectedRestaurant(null);
     setQuantity(1);
     setUserRating(0);
@@ -238,7 +240,7 @@ export default function FoodCard({ item }) {
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg"
               >
                 <ShoppingCart className="w-5 h-5" />
-                Add to Cart - {selectedRestaurant.price} * {quantity}
+                Add to Cart - {quantity * selectedRestaurant.price} /-
               </button>
             </div>
           </div>

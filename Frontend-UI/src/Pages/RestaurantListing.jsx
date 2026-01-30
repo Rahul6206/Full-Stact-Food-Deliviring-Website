@@ -28,11 +28,16 @@ import { useCallback } from 'react';
 
 
 export default function RestaurantListing() {
+
+  const [filter, setFilter] = useState('all');
+  const { Userlocation } = useSelector(state => state.user);
+  const { ShopItems } = useSelector(state => state.Owner);
+  const observer = useRef();
+
   const { loading, error, refetch } = useFetch(
     `${BURL}/owner/item/getAllItem`,
   );
 
-  const observer = useRef();
   useCallback(node => {
     if (loading || error) return;
     if (observer.current) observer.current.disconnect(); // Stop observing the previous element
@@ -51,9 +56,7 @@ export default function RestaurantListing() {
 
 
 
-  const [filter, setFilter] = useState('all');
-  const { Userlocation } = useSelector(state => state.user);
-  const { ShopItems } = useSelector(state => state.Owner);
+
   console.log(ShopItems)
   const filteredRestaurants = ShopItems.filter(item => {
     if (filter === 'veg') return item.FoodType === "Veg";
