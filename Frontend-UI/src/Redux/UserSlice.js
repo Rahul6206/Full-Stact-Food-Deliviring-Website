@@ -4,6 +4,7 @@ const initialState = {
   Userdata: null,
   Userinfo: false,
   Userlocation: null,
+  iscartopen: false,
 }
 
 export const userSlice = createSlice({
@@ -18,9 +19,12 @@ export const userSlice = createSlice({
     },
     setUserlocation:(state, action) => {
       state.Userlocation=action.payload
-    }
+    },
+    setIscartopen:(state, action) => {
+      state.iscartopen=action.payload
+    },
   },
 })
 
-export const { setUserdata, setUserinfo,setUserlocation } = userSlice.actions
+export const { setUserdata, setUserinfo,setUserlocation,setIscartopen } = userSlice.actions
 export default userSlice.reducer

@@ -4,7 +4,7 @@ import { Mail, Lock, KeyRound, ArrowRight, ArrowLeft, Check, Eye, EyeOff, MoveLe
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from "sonner";
-import { BURL } from '../App';
+import { BURL } from '../../App';
 
 export default function ForgotPassword() {
     const [step, setStep] = useState(1);

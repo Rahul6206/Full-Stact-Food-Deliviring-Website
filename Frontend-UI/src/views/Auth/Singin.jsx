@@ -5,12 +5,12 @@ import { email, z } from "zod";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import axios from "axios";
-import { BURL } from "../App";
+import { BURL } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import {auth} from "../../Firebase";
+import {auth} from "../../../Firebase";
 import { useDispatch } from "react-redux";
-import { setUserdata, setUserinfo } from "../Redux/UserSlice";
+import { setUserdata, setUserinfo } from "../../Redux/UserSlice";
 // import { useNavigate } from "react-router-dom";
 
 const schema = z.object({

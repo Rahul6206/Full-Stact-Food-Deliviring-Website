@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { setUserdata, setUserinfo } from '../Redux/UserSlice';
+import { setUserdata, setUserinfo } from '../../Redux/UserSlice';
 import axios from 'axios';
-import { BURL } from '../App';
+import { BURL } from '../../App';
 
 const UserButton = ({ ismobile}) => {
     const { Userdata } = useSelector(state => state.user);

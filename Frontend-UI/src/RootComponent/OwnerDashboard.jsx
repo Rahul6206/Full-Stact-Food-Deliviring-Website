@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Home, Package, MenuSquare, DollarSign, Store, Truck, Star, Users, Bell, Settings, AlertCircle } from 'lucide-react';
-import UserButton from '../Components/UserButton';
+import UserButton from '../views/User/UserButton';
 import Orders from '../views/Owner/Orders';
 import Overview from '../views/Owner/Overview';
 import Menu from '../views/Owner/Menu';

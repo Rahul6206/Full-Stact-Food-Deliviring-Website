@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { Mail, Lock, User, Phone, MapPin, Eye, EyeOff } from "lucide-react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import { BURL } from "../App";
+import { BURL } from "../../App";
 import { useDispatch } from "react-redux";
 import { setUserdata, setUserinfo } from "../Redux/UserSlice";
 import useCurrentuser from "../hooks/useCurrentuser";

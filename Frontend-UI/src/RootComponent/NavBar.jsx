@@ -3,12 +3,14 @@ import { MapPin, Search, ShoppingCart } from "lucide-react";
 
 import { useSelector } from "react-redux"; 
 
-import UserButton from "./UserButton";
+import UserButton from "../views/User/UserButton";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [ismobile, setIismobile] = useState(false);
  const [serchvalue, setSearchvalue] = useState("");
-
+  const navigate = useNavigate();
+  const [iscartopen, setIscartopen] = useState(false);
 
   const cartCount = 3; // Example item count
   const { Userlocation } = useSelector(state => state.user);
@@ -79,7 +81,7 @@ const NavBar = () => {
 
 
           {/* Cart */}
-          <div className="relative cursor-pointer">
+          <div className="relative cursor-pointer" onClick={()=> navigate("/cart")}>
             <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-red-500" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold px-1.5 rounded-full">
               {cartCount}

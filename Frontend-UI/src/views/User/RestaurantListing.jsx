@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Leaf, Drumstick } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { useFetch } from '../hooks/useItems';
-import { BURL } from '../App';
-import FoodCard from '../views/User/FoodCard';
+import { useFetch } from '../../hooks/useItems';
+import { BURL } from '../../App';
+import FoodCard from './FoodCard';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 
