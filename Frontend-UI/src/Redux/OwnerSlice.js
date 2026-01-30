@@ -17,7 +17,7 @@ export const OwnerSlice = createSlice({
       state.ShopRegister = action.payload
     },
     setShopItems: (state, action) => {
-      state.ShopItems = action.payload
+      state.ShopItems = [...state.ShopItems, ...action.payload];
     },
     
   },
